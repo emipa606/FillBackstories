@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <FiBa.restart.label>Backstories will be generated during the next restart</FiBa.restart.label>
+  <FiBa.logging.label>Enable extra logging</FiBa.logging.label>
+  <FiBa.minimum.label>Minimum amount of backstories per spawncategory</FiBa.minimum.label>
+  <FiBa.minimum.tooltip>A minimum of this many backstories will be generated for each spawncategory. 20 is standard but more can be needed if they are very specific.</FiBa.minimum.tooltip>
+  <FiBa.version.label>Installed mod-version: {0}</FiBa.version.label>
+</LanguageData>

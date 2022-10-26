@@ -1,13 +1,20 @@
 # FillBackstories
 
-![Image](https://i.imgur.com/WAEzk68.png)
+![Image](https://i.imgur.com/buuPQel.png)
 
 
-Makes multiple custom backstories to avoid the &quot;Cant find random backstory&quot; error thats often caused by not having enough to choose from.
+Makes multiple custom backstories to avoid the "Cant find random backstory" error thats often caused by not having enough to choose from.
 
 Iterates through all backstory tags and assures that there is a certain total amount (configurable) of backstories by duplicating them if needed.
 
-![Image](https://i.imgur.com/Rs6T6cr.png)
+![Image](https://i.imgur.com/O0IIlYj.png)
+
+Since modding is just a hobby for me I expect no donations to keep modding. If you still want to show your support you can gift me anything from my https://store.steampowered.com/wishlist/id/Mlie]Wishlist or buy me a cup of tea.
+
+https://ko-fi.com/G2G55DDYD]![Image](https://i.imgur.com/Utx6OIH.png)
+
+
+![Image](https://i.imgur.com/PwoNOj4.png)
 
 
 
@@ -17,6 +24,7 @@ Iterates through all backstory tags and assures that there is a certain total am
 -  For best support, please use the Discord-channel for error-reporting.
 -  Do not report errors by making a discussion-thread, I get no notification of that.
 -  If you have the solution for a problem, please post it to the GitHub repository.
+
 
 
 

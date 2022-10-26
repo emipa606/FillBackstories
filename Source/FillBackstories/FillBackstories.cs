@@ -1,92 +1,95 @@
 ﻿using System;
 using System.Collections.Generic;
-using AlienRace;
-using JetBrains.Annotations;
+using System.Linq;
 using RimWorld;
 using Verse;
 
-namespace FillBackstories
+namespace FillBackstories;
+
+[StaticConstructorOnStartup]
+internal class FillBackstories
 {
-    [StaticConstructorOnStartup]
-    [UsedImplicitly]
-    internal class FillBackstories
+    private static int backstoriesGenerated;
+
+    static FillBackstories()
     {
-        private static int backstoriesGenerated;
+        var backstories = DefDatabase<BackstoryDef>.AllDefsListForReading.Where(def => def.shuffleable);
+        var childBackstoryTags = new Dictionary<string, List<BackstoryDef>>();
+        var adultBackstoryTags = new Dictionary<string, List<BackstoryDef>>();
+        var amountOfBackstories = LoadedModManager.GetMod<FillBackstoriesMod>().GetSettings<FillBackstoriesSettings>()
+            .AmountOfBackstories;
+        var extraLogging = LoadedModManager.GetMod<FillBackstoriesMod>().GetSettings<FillBackstoriesSettings>()
+            .VerboseLogging;
 
-        static FillBackstories()
+        foreach (var backstory in backstories)
         {
-            var backstories = DefDatabase<BackstoryDef>.AllDefsListForReading;
-            var childBackstoryTags = new Dictionary<string, List<BackstoryDef>>();
-            var adultBackstoryTags = new Dictionary<string, List<BackstoryDef>>();
-            var amountOfBackstories = LoadedModManager.GetMod<FillBackstoriesMod>()
-                .GetSettings<FillBackstoriesSettings>().AmountOfBackstories;
-
-            foreach (var backstory in backstories)
+            foreach (var valueSpawnCategory in backstory.spawnCategories)
             {
-                foreach (var valueSpawnCategory in backstory.spawnCategories)
+                switch (backstory.slot)
                 {
-                    switch (backstory.slot)
-                    {
-                        case BackstorySlot.Childhood:
-                            if (childBackstoryTags.ContainsKey(valueSpawnCategory))
-                            {
-                                childBackstoryTags[valueSpawnCategory].Add(backstory);
-                            }
-                            else
-                            {
-                                childBackstoryTags[valueSpawnCategory] = new List<BackstoryDef> {backstory};
-                            }
-
-                            break;
-                        case BackstorySlot.Adulthood:
-                            if (adultBackstoryTags.ContainsKey(valueSpawnCategory))
-                            {
-                                adultBackstoryTags[valueSpawnCategory].Add(backstory);
-                            }
-                            else
-                            {
-                                adultBackstoryTags[valueSpawnCategory] = new List<BackstoryDef> {backstory};
-                            }
-
-                            break;
-                        default:
-                            continue;
-                    }
-                }
-            }
-
-            foreach (var backstoryTags in new List<Dictionary<string, List<BackstoryDef>>>
-                {childBackstoryTags, adultBackstoryTags})
-            {
-                foreach (var (_, backstoryDefs) in backstoryTags)
-                {
-                    if (backstoryDefs.Count >= amountOfBackstories)
-                    {
-                        continue;
-                    }
-
-                    var cycles = (int) Math.Ceiling((double) amountOfBackstories / backstoryDefs.Count);
-                    for (var i = 0; i < cycles; i++)
-                    {
-                        foreach (var backstoryDef in backstoryDefs)
+                    case BackstorySlot.Childhood:
+                        if (childBackstoryTags.ContainsKey(valueSpawnCategory))
                         {
-                            DuplicateBackstoryDef(backstoryDef, i.ToString());
+                            childBackstoryTags[valueSpawnCategory].Add(backstory);
                         }
-                    }
+                        else
+                        {
+                            childBackstoryTags[valueSpawnCategory] = new List<BackstoryDef> { backstory };
+                        }
+
+                        break;
+                    case BackstorySlot.Adulthood:
+                        if (adultBackstoryTags.ContainsKey(valueSpawnCategory))
+                        {
+                            adultBackstoryTags[valueSpawnCategory].Add(backstory);
+                        }
+                        else
+                        {
+                            adultBackstoryTags[valueSpawnCategory] = new List<BackstoryDef> { backstory };
+                        }
+
+                        break;
+                    default:
+                        continue;
                 }
             }
-
-            Log.Message(
-                $"Fill Backstories: Generated {backstoriesGenerated} backstory-copies");
         }
 
-        private static void DuplicateBackstoryDef(BackstoryDef backstoryDef, string suffix)
+        foreach (var backstoryTags in new List<Dictionary<string, List<BackstoryDef>>>
+                     { childBackstoryTags, adultBackstoryTags })
         {
-            var oldName = backstoryDef.defName;
-            backstoryDef.defName = $"{backstoryDef.defName}_Clone{suffix}";
-            backstoryDef.ResolveReferences();
-            backstoriesGenerated++;
-            backstoryDef.defName = oldName;
+            foreach (var (categoryKey, backstoryDefs) in backstoryTags)
+            {
+                if (backstoryDefs.Count >= amountOfBackstories)
+                {
+                    continue;
+                }
+
+                var cycles = (int)Math.Floor((double)amountOfBackstories / backstoryDefs.Count);
+                for (var i = 0; i < cycles; i++)
+                {
+                    foreach (var backstoryDef in backstoryDefs)
+                    {
+                        DuplicateBackstoryDef(backstoryDef, i.ToString());
+                    }
+                }
+
+                if (extraLogging)
+                {
+                    Log.Message($"[FillBackstories]: Generated {cycles} extra copies for category: {categoryKey}");
+                }
+            }
         }
+
+        Log.Message($"[FillBackstories]: Generated total of {backstoriesGenerated} backstory-copies");
+    }
+
+    private static void DuplicateBackstoryDef(BackstoryDef backstoryDef, string suffix)
+    {
+        var oldName = backstoryDef.defName;
+        backstoryDef.defName = $"{backstoryDef.defName}_Clone{suffix}";
+        backstoryDef.ResolveReferences();
+        backstoriesGenerated++;
+        backstoryDef.defName = oldName;
     }
 }
