@@ -28,9 +28,9 @@ internal class FillBackstories
                 switch (backstory.slot)
                 {
                     case BackstorySlot.Childhood:
-                        if (childBackstoryTags.ContainsKey(valueSpawnCategory))
+                        if (childBackstoryTags.TryGetValue(valueSpawnCategory, out var tag))
                         {
-                            childBackstoryTags[valueSpawnCategory].Add(backstory);
+                            tag.Add(backstory);
                         }
                         else
                         {
@@ -39,9 +39,9 @@ internal class FillBackstories
 
                         break;
                     case BackstorySlot.Adulthood:
-                        if (adultBackstoryTags.ContainsKey(valueSpawnCategory))
+                        if (adultBackstoryTags.TryGetValue(valueSpawnCategory, out var backstoryTag))
                         {
-                            adultBackstoryTags[valueSpawnCategory].Add(backstory);
+                            backstoryTag.Add(backstory);
                         }
                         else
                         {

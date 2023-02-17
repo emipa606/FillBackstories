@@ -10,35 +10,20 @@ internal class FillBackstoriesMod : Mod
     private static string currentVersion;
 
     /// <summary>
-    ///     The private settings
-    /// </summary>
-    private FillBackstoriesSettings settings;
-
-    /// <summary>
     ///     Cunstructor
     /// </summary>
     /// <param name="content"></param>
     public FillBackstoriesMod(ModContentPack content) : base(content)
     {
+        Settings = GetSettings<FillBackstoriesSettings>();
         currentVersion =
-            VersionFromManifest.GetVersionFromModMetaData(ModLister.GetActiveModWithIdentifier("Mlie.FillBackstories"));
+            VersionFromManifest.GetVersionFromModMetaData(content.ModMetaData);
     }
 
     /// <summary>
     ///     The instance-settings for the mod
     /// </summary>
-    private FillBackstoriesSettings Settings
-    {
-        get
-        {
-            if (settings == null)
-            {
-                settings = GetSettings<FillBackstoriesSettings>();
-            }
-
-            return settings;
-        }
-    }
+    private FillBackstoriesSettings Settings { get; }
 
     /// <summary>
     ///     The title for the mod-settings
@@ -60,7 +45,7 @@ internal class FillBackstoriesMod : Mod
         listing_Standard.Begin(rect);
         listing_Standard.Gap();
         listing_Standard.Label("FiBa.minimum.label".Translate(), -1, "FiBa.minimum.tooltip".Translate());
-        Settings.AmountOfBackstories = (int)Widgets.HorizontalSlider(listing_Standard.GetRect(20),
+        Settings.AmountOfBackstories = (int)Widgets.HorizontalSlider_NewTemp(listing_Standard.GetRect(20),
             Settings.AmountOfBackstories, 5, 40, false, Settings.AmountOfBackstories.ToString(), null, null, 1);
         listing_Standard.Gap();
         listing_Standard.CheckboxLabeled("FiBa.logging.label".Translate(), ref Settings.VerboseLogging);
