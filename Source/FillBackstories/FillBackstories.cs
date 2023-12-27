@@ -34,7 +34,7 @@ internal class FillBackstories
                         }
                         else
                         {
-                            childBackstoryTags[valueSpawnCategory] = new List<BackstoryDef> { backstory };
+                            childBackstoryTags[valueSpawnCategory] = [backstory];
                         }
 
                         break;
@@ -45,7 +45,7 @@ internal class FillBackstories
                         }
                         else
                         {
-                            adultBackstoryTags[valueSpawnCategory] = new List<BackstoryDef> { backstory };
+                            adultBackstoryTags[valueSpawnCategory] = [backstory];
                         }
 
                         break;

@@ -1,5 +1,8 @@
 # Changelog for FillBackstories
 
+1.4.3 - FIxed info regarding HAR
+
+
 1.4.2 - Better save-compatibility, thanks Taranchuk
 
 
