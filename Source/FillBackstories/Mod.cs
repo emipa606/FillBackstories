@@ -45,7 +45,7 @@ internal class FillBackstoriesMod : Mod
         listing_Standard.Begin(rect);
         listing_Standard.Gap();
         listing_Standard.Label("FiBa.minimum.label".Translate(), -1, "FiBa.minimum.tooltip".Translate());
-        Settings.AmountOfBackstories = (int)Widgets.HorizontalSlider_NewTemp(listing_Standard.GetRect(20),
+        Settings.AmountOfBackstories = (int)Widgets.HorizontalSlider(listing_Standard.GetRect(20),
             Settings.AmountOfBackstories, 5, 40, false, Settings.AmountOfBackstories.ToString(), null, null, 1);
         listing_Standard.Gap();
         listing_Standard.CheckboxLabeled("FiBa.logging.label".Translate(), ref Settings.VerboseLogging);
