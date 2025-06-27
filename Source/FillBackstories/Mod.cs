@@ -41,23 +41,23 @@ internal class FillBackstoriesMod : Mod
     /// <param name="rect"></param>
     public override void DoSettingsWindowContents(Rect rect)
     {
-        var listing_Standard = new Listing_Standard();
-        listing_Standard.Begin(rect);
-        listing_Standard.Gap();
-        listing_Standard.Label("FiBa.minimum.label".Translate(), -1, "FiBa.minimum.tooltip".Translate());
-        Settings.AmountOfBackstories = (int)Widgets.HorizontalSlider(listing_Standard.GetRect(20),
+        var listingStandard = new Listing_Standard();
+        listingStandard.Begin(rect);
+        listingStandard.Gap();
+        listingStandard.Label("FiBa.minimum.label".Translate(), -1, "FiBa.minimum.tooltip".Translate());
+        Settings.AmountOfBackstories = (int)Widgets.HorizontalSlider(listingStandard.GetRect(20),
             Settings.AmountOfBackstories, 5, 40, false, Settings.AmountOfBackstories.ToString(), null, null, 1);
-        listing_Standard.Gap();
-        listing_Standard.CheckboxLabeled("FiBa.logging.label".Translate(), ref Settings.VerboseLogging);
-        listing_Standard.Label("FiBa.restart.label".Translate());
+        listingStandard.Gap();
+        listingStandard.CheckboxLabeled("FiBa.logging.label".Translate(), ref Settings.VerboseLogging);
+        listingStandard.Label("FiBa.restart.label".Translate());
         if (currentVersion != null)
         {
-            listing_Standard.Gap();
+            listingStandard.Gap();
             GUI.contentColor = Color.gray;
-            listing_Standard.Label("FiBa.version.label".Translate(currentVersion));
+            listingStandard.Label("FiBa.version.label".Translate(currentVersion));
             GUI.contentColor = Color.white;
         }
 
-        listing_Standard.End();
+        listingStandard.End();
     }
 }

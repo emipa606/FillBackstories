@@ -70,7 +70,7 @@ internal class FillBackstories
                 {
                     foreach (var backstoryDef in backstoryDefs)
                     {
-                        DuplicateBackstoryDef(backstoryDef, i.ToString());
+                        duplicateBackstoryDef(backstoryDef, i.ToString());
                     }
                 }
 
@@ -84,7 +84,7 @@ internal class FillBackstories
         Log.Message($"[FillBackstories]: Generated total of {backstoriesGenerated} backstory-copies");
     }
 
-    private static void DuplicateBackstoryDef(BackstoryDef backstoryDef, string suffix)
+    private static void duplicateBackstoryDef(BackstoryDef backstoryDef, string suffix)
     {
         var oldName = backstoryDef.defName;
         backstoryDef.defName = $"{backstoryDef.defName}_Clone{suffix}";
