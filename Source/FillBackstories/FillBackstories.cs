@@ -7,7 +7,7 @@ using Verse;
 namespace FillBackstories;
 
 [StaticConstructorOnStartup]
-internal class FillBackstories
+internal static class FillBackstories
 {
     private static int backstoriesGenerated;
 
